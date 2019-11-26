@@ -37,6 +37,7 @@ public class JSpotBoard extends JPanel implements SpotBoard {
 		if (width < 1 || height < 1 || width > 50 || height > 50) {
 			throw new IllegalArgumentException("Illegal spot board geometry");
 		}
+		
 		setLayout(new GridLayout(height, width));
 		_spots = new Spot[width][height];
 		
@@ -45,6 +46,45 @@ public class JSpotBoard extends JPanel implements SpotBoard {
 		for (int y=0; y<height; y++) {
 			for (int x=0; x<width; x++) {
 				Color bg = ((x+y)%2 == 0) ? DEFAULT_BACKGROUND_LIGHT : DEFAULT_BACKGROUND_DARK;
+				_spots[x][y] = new JSpot(bg, DEFAULT_SPOT_COLOR, DEFAULT_HIGHLIGHT_COLOR, this, x, y);
+				((JSpot)_spots[x][y]).setPreferredSize(preferred_size);
+				add(((JSpot) _spots[x][y]));
+			}			
+		}
+	}
+	
+	public JSpotBoard(String game) {
+		if (!game.equals("ConnectFour")) {
+			throw new IllegalArgumentException("Illegal spot board geometry");
+		}
+		if (game.equals("ConnectFour")) {
+			setLayout(new GridLayout(6, 7));
+			_spots = new Spot[7][6];
+		
+			Dimension preferred_size = new Dimension(DEFAULT_SCREEN_WIDTH/7, DEFAULT_SCREEN_HEIGHT/6);
+		
+			for (int y=0; y<6; y++) {
+				for (int x=0; x<7; x++) {
+					Color bg = (x%2 == 0) ? DEFAULT_BACKGROUND_LIGHT : DEFAULT_BACKGROUND_DARK;
+					_spots[x][y] = new JSpot(bg, DEFAULT_SPOT_COLOR, DEFAULT_HIGHLIGHT_COLOR, this, x, y);
+					((JSpot)_spots[x][y]).setPreferredSize(preferred_size);
+					add(((JSpot) _spots[x][y]));
+				}			
+			}
+		
+		}
+
+	}
+		
+	public JSpotBoard() {
+		setLayout(new GridLayout(3, 3));
+		_spots = new Spot[3][3];
+		
+		Dimension preferred_size = new Dimension(DEFAULT_SCREEN_WIDTH/3, DEFAULT_SCREEN_HEIGHT/3);
+		
+		for (int y=0; y<3; y++) {
+			for (int x=0; x<3; x++) {
+				Color bg = DEFAULT_BACKGROUND_DARK;
 				_spots[x][y] = new JSpot(bg, DEFAULT_SPOT_COLOR, DEFAULT_HIGHLIGHT_COLOR, this, x, y);
 				((JSpot)_spots[x][y]).setPreferredSize(preferred_size);
 				add(((JSpot) _spots[x][y]));
